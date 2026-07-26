@@ -23,3 +23,5 @@ data/processed/
 # Generated files
 results/
 figures/
+
+*.egg-info/

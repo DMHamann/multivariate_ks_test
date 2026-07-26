@@ -1,0 +1,2 @@
+# References
+Justel, Ana, Daniel Peña, and Rubén Zamar. ‘A Multivariate Kolmogorov-Smirnov Test of Goodness of Fit’. Statistics & Probability Letters 35, no. 3 (1997): 251–59. https://doi.org/10.1016/S0167-7152(97)00020-5.
