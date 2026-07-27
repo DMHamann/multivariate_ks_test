@@ -1,53 +1,73 @@
 # Multivariate Kolmogorov–Smirnov Test
 
+Implementation, exact-computation algorithm, and simulation study for the
+bivariate extension of the Kolmogorov–Smirnov goodness-of-fit test, based on
+the finite-representation result of Justel, Peña & Zamar (1997), plus my own
+Monte Carlo validation of critical values and test power.
 
-Implementation and simulation study of the multivariate Kolmogorov–Smirnov goodness-of-fit test proposed by Justel, Peña, and Zamar (1997).
+## Why this is a nontrivial problem
 
-This repository contains a Python implementation of the test statistic together with Monte Carlo procedures for estimating critical values and evaluating the statistical power under alternative distributions.
+The classical Kolmogorov–Smirnov test relies on the natural ordering of the
+real line to define an empirical vs. reference CDF comparison. That ordering
+has no canonical analogue in $\mathbb{R}^p$ for $p \geq 2$, so a faithful
+multivariate extension needs a different construction entirely and,
+because no closed-form null distribution exists in the multivariate case,
+critical values must be obtained via simulation rather than a lookup table.
 
-The project was developed as part of a Master's thesis in mathematical statistics, focusing on goodness-of-fit testing, empirical processes, and simulation-based inference.
+## The statistic
 
----
+For an i.i.d. sample $x_1, \dots, x_n$ from a $p$-dimensional distribution
+$F$, testing $H_0: F = F_0$ against $H_1: F \neq F_0$, the multivariate KS
+statistic is
 
-# Repository Structure
-.
-├── docs/                 # Handout in German and Reference to the paper
-├── figures/              # Result tables
-├── notebooks/            # Jupyter notebooks for experiments
-├── src/multivariate_ks_test                
-│   └── algorithm.py/     # Main Algorithm
-├── requirements.txt      # Python dependencies
-├── pyproject.toml        # Project configuration and package metadata
-├── README.md             # Project documentation
-└── .gitignore            # Files excluded from version control
+$$D_n = \max_{j=1,2,\dots} \; \sup_{y^j} \left| G_n(y^j) - y_1^j \cdots y_p^j \right|,$$
 
+maximized over all $p!$ coordinate permutations combined with the Rosenblatt
+transformation. For the bivariate case, this reduces to a maximum over a
+finite, sample-determined set of candidate points, making exact computation
+tractable — see [`docs/paper_summary.md`](docs/paper_summary.md) for the
+full derivation, the five-term computational procedure, and my Monte Carlo
+validation against the original article's simulation results.
 
-# Installation
+## What's in this repository
 
-Clone the repository:
+```
+├── docs/
+│   ├── paper_summary.md        # full write-up: theory, algorithm, simulation results
+│   ├── references.md           # citations
+│   └── simulation_handout_de.pdf  # original handout (German)
+├── notebooks/
+│   ├── 01_ks_test_simulation.ipynb    # statistic + power/Type-I-error study
+│   └── 02_MC_quantiles_simulation.ipynb  # Monte Carlo critical-value estimation
+├── src/multivariate_ks_test/
+│   ├── __init__.py
+│   └── algorithm.py            # ks_2d_statistic implementation
+├── requirements.txt
+└── pyproject.toml
+```
 
-git clone <repository-url>
-cd <repository-name>
+## Results at a glance
 
-Create and activate a virtual environment:
+- **Critical values (Type I error):** Monte Carlo estimates of the 95th
+  percentile of $D_n$ agree with Justel et al.'s reported values to within
+  $\sim 10^{-3}$ across $n \in \{15, 25, 50, 100\}$.
+- **Power:** power increases with both sample size and mixture weight
+  $\varepsilon$, as expected, and increments closely track the article's;
+  absolute power values run consistently lower than the article's by up to
+  ~0.06 — an unresolved, systematic discrepancy discussed openly in
+  [`docs/paper_summary.md`](docs/paper_summary.md#discussion).
 
-python -m venv .venv
-source .venv/bin/activate      # Linux/macOS
-.venv\Scripts\activate         # Windows
+## Usage
 
+```python
+from multivariate_ks_test.algorithm import ks_2d_statistic, G_uniform
 
-Install the required dependencies:
+Dn = ks_2d_statistic(X, Y, G_uniform)
+```
 
-pip install -r requirements.txt
+See the notebooks for critical-value simulation and full power-study
+examples.
 
-For development, install the package in editable mode:
+## References
 
-pip install -e .
-
-
-# Reproducibility
-
-To reproduce the experiments:
-
-Install the dependencies.
-Run the notebooks with according specification of n and critical values.
+Full citation and related work in [`docs/references.md`](docs/references.md).
