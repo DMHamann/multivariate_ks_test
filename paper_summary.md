@@ -57,7 +57,7 @@ show that the supremum is in fact attained on a **finite set of candidate
 points** determined by the sample itself, which makes exact computation
 tractable:
 
-$$D_n = \max_{u \in I,\, v \in P} \{ G_n(u) - G(u),\; G(v) - G_n(v^-) \}$$
+$$D_n = \max_{u \in I,\, v \in P} \left\{ G_n(u) - G(u),\; G(v) - G_n(v^-) \right\}$$
 
 where:
 
