@@ -69,5 +69,5 @@ See the notebooks for critical-value simulation and full power-study
 examples.
 
 ## References
-
-Full citation and related work in [`docs/references.md`](docs/references.md).
+This is an AI summary. The original document in German as well as the full citation can be found 
+in [`docs/references.md`](docs/references.md).
