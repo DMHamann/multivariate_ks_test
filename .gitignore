@@ -16,12 +16,4 @@ __pycache__/
 # OS
 .DS_Store
 
-# Data
-data/raw/
-data/processed/
-
-# Generated files
-results/
-figures/
-
 *.egg-info/
