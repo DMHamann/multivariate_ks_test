@@ -25,26 +25,10 @@ $$D_n = \max_{j=1,2,\dots} \; \sup_{y^j} \left| G_n(y^j) - y_1^j \cdots y_p^j \r
 maximized over all $p!$ coordinate permutations combined with the Rosenblatt
 transformation. For the bivariate case, this reduces to a maximum over a
 finite, sample-determined set of candidate points, making exact computation
-tractable — see [`docs/paper_summary.md`](docs/paper_summary.md) for the
+tractable see [`docs/paper_summary.md`](docs/paper_summary.md) for the
 full derivation, the five-term computational procedure, and my Monte Carlo
 validation against the original article's simulation results.
 
-## What's in this repository
-
-```
-├── docs/
-│   ├── paper_summary.md        # full write-up: theory, algorithm, simulation results
-│   ├── references.md           # citations
-│   └── simulation_handout_de.pdf  # original handout (German)
-├── notebooks/
-│   ├── 01_ks_test_simulation.ipynb    # statistic + power/Type-I-error study
-│   └── 02_MC_quantiles_simulation.ipynb  # Monte Carlo critical-value estimation
-├── src/multivariate_ks_test/
-│   ├── __init__.py
-│   └── algorithm.py            # ks_2d_statistic implementation
-├── requirements.txt
-└── pyproject.toml
-```
 
 ## Results at a glance
 
@@ -54,7 +38,7 @@ validation against the original article's simulation results.
 - **Power:** power increases with both sample size and mixture weight
   $\varepsilon$, as expected, and increments closely track the article's;
   absolute power values run consistently lower than the article's by up to
-  ~0.06 — an unresolved, systematic discrepancy discussed openly in
+  ~0.06 — an unresolved, systematic discrepancy discussed openly in [`results`](results/summary_and_results.md) and
   [`docs/paper_summary.md`](docs/paper_summary.md#discussion).
 
 ## Usage
