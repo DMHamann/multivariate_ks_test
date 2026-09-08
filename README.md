@@ -1,57 +1,36 @@
 # Multivariate Kolmogorov–Smirnov Test
 
-Implementation, exact-computation algorithm, and simulation study for the
-bivariate extension of the Kolmogorov–Smirnov goodness-of-fit test, based on
-the finite-representation result of Justel, Peña & Zamar (1997), plus my own
-Monte Carlo validation of critical values and test power.
+Implementation and simulation study for the bivariate extension of the Kolmogorov–Smirnov goodness-of-fit test, based on Justel, Peña & Zamar (1997).
 
-## Why this is a nontrivial problem
+## Background
 
-The classical Kolmogorov–Smirnov test relies on the natural ordering of the
-real line to define an empirical vs. reference CDF comparison. That ordering
-has no canonical analogue in $\mathbb{R}^p$ for $p \geq 2$, so a faithful
-multivariate extension needs a different construction entirely and,
-because no closed-form null distribution exists in the multivariate case,
-critical values must be obtained via simulation rather than a lookup table.
+The classical Kolmogorov–Smirnov test makes use of the ordering of the
+real line to define an empirical CDF and compare it against a reference CDF (depending on $H_0$). 
+Considering the multivariate case, or even $\mathbb{R}^p$ for $p \geq 2$, has no such ordering.
+Thus, a multivariate extension must be constructed differently. In addition, critical values have to be obtained via simulation and cannot be found in a lookup table.
 
 ## The statistic
 
-For an i.i.d. sample $x_1, \dots, x_n$ from a $p$-dimensional distribution
-$F$, testing $H_0: F = F_0$ against $H_1: F \neq F_0$, the multivariate KS
-statistic is
+Let the sample $x_1, \dots, x_n$ of i.i.d. $p$-dimensional random variables with distribution $F$ be given. For the test $H_0 : F = F_0$ against $H_1 : F \neq F_0$,
 
-$$D_n = \max_{j=1,2,\dots} \; \sup_{y^j} \left| G_n(y^j) - y_1^j \cdots y_p^j \right|,$$
+$$D_n = \max_{j=1,2,\dots} d_n^j$$
 
-maximized over all $p!$ coordinate permutations combined with the Rosenblatt
-transformation. For the bivariate case, this reduces to a maximum over a
-finite, sample-determined set of candidate points, making exact computation
-tractable see [`docs/paper_summary.md`](docs/paper_summary.md) for the
-full derivation, the five-term computational procedure, and my Monte Carlo
-validation against the original article's simulation results.
+is the multivariate version of the Kolmogorov-Smirnov test statistic. Here $d_n^j = \sup_{y^j}|G_n(y^j) - y_1^j \cdots y_p^j|$ and
 
+$$y_1^j = F(z_1^j)$$
 
-## Results at a glance
+$$y_i^j = F(z_i^j \mid z_{i-1}^j, \dots, z_1^j)$$
 
-- **Critical values (Type I error):** Monte Carlo estimates of the 95th
-  percentile of $D_n$ agree with Justel et al.'s reported values to within
-  $\sim 10^{-3}$ across $n \in \{15, 25, 50, 100\}$.
-- **Power:** power increases with both sample size and mixture weight
-  $\varepsilon$, as expected, and increments closely track the article's;
-  absolute power values run consistently lower than the article's by up to
-  ~0.06 — an unresolved, systematic discrepancy discussed openly in [`results`](results/summary_and_results.md) and
-  [`docs/paper_summary.md`](docs/paper_summary.md#discussion).
+is the sequence of transformations (Rosenblatt transformation) that generates all $(y_1^j, \dots, y_p^j)$. $(z_1^j, \dots, z_p^j)$ for $j = 1, \dots, p!$ is the $j$-th permutation of $(x_1, \dots, x_p)$.
+
+## Further information
+
+The full write-up and description of the statistic and the algorithm can be found [`here`](docs/write_up.md). This is a translation of my [`German version`](docs/ks_test_write_up_ger.pdf).
 
 ## Usage
-
-```python
-from multivariate_ks_test.algorithm import ks_2d_statistic, G_uniform
-
-Dn = ks_2d_statistic(X, Y, G_uniform)
-```
 
 See the notebooks for critical-value simulation and full power-study
 examples.
 
 ## References
-This is an AI summary. The original document in German as well as the full citation can be found 
-in [`docs/references.md`](docs/references.md).
+The full citation of the paper my simulation is based on can be found [`here`](docs/references.md).
